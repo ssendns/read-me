@@ -2,10 +2,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import SearchPage from "./pages/SearchPage";
 import BookPage from "./pages/BookPage";
+import LogInPage from "./pages/LogInPage";
+import SignUpPage from "./pages/SignUpPage";
 
 export default function RouterWrapper() {
   const routes = [
     { path: "/", element: <LandingPage /> },
+    { path: "/sign-up", element: <SignUpPage /> },
+    { path: "/log-in", element: <LogInPage /> },
     {
       path: "/search",
       element: <SearchPage />,
