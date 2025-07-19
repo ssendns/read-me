@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #2c3e50;
+  --color-accent: #a19589;
+  --color-accent-hover: #8d8276;
+  --color-bg: #f9f9f9;
+  --color-text: #333333;
+  --color-muted: #7f8c8d;
+  --color-white: #ffffff;
+  --color-border: #e0e0e0;
+  --color-hover: #dcdcdc;
+
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 2rem;
+
+  --shadow-sm: 1px 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 1px 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 1px 6px 20px rgba(0, 0, 0, 0.15);
+
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 6rem;
+  --space-gutter: 1.5rem;
+
+  --space-section: 4rem;
+  --space-block: 2rem;
+
+  --font-main: "Courier Prime", monospace;
+  --font-alt: system-ui, sans-serif;
+
+  --max-width-container: 1280px;
+  --max-width-content: 768px;
+  --max-width-narrow: 512px;
+}
+
+body {
+  @apply font-typewriter;
+}

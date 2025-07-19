@@ -19,21 +19,22 @@ const GENRES = [
 
 export default function LandingPage() {
   const [selectedGenre, setSelectedGenre] = useState("fiction");
+
   return (
     <>
       <Header />
       <Hero />
-      <section className="min-h-screen bg-gray-50 px-6 py-10">
+      <section className="bg-bg min-h-screen px-section py-10">
         <div className="overflow-x-auto scrollbar-hide">
-          <div className="flex gap-5 sm:gap-10 px-4 py-2 whitespace-nowrap text-xl sm:text-2xl font-bold">
+          <div className="flex gap-5 sm:gap-10 px-section py-2 whitespace-nowrap text-xl sm:text-2xl font-bold">
             {GENRES.map((genre) => (
               <button
                 key={genre}
                 onClick={() => setSelectedGenre(genre)}
                 className={`transition ${
                   selectedGenre === genre
-                    ? "text-black underline underline-offset-8"
-                    : "text-gray-700 hover:text-black hover:underline"
+                    ? "text-active underline underline-offset-8"
+                    : "text-muted hover:text-active hover:underline"
                 }`}
               >
                 {genre}

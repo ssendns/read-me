@@ -7,12 +7,12 @@ export default function SearchPage() {
   const [query, setQuery] = useState("");
 
   return (
-    <>
+    <div className="bg-bg min-h-screen">
       <Header />
-      <main className="min-h-screen px-6 py-10">
+      <main className="text-center bg-bg py-layoutY">
         <SearchBar onSearch={setQuery} />
         {query && <BookList query={query} />}
       </main>
-    </>
+    </div>
   );
 }

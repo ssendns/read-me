@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
-    <header className="bg-gray-50 text-black px-6 py-4 shadow-md flex justify-between items-center">
+    <header className="bg-bg text-text px-layoutX py-layoutY border-b border-color-border flex justify-between items-center font-typewriter">
       <Link to="/" className="hover:underline font-bold text-xl">
         read-me
       </Link>
