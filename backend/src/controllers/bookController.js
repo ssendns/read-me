@@ -38,7 +38,12 @@ const addBook = async (req, res) => {
     notes,
   } = req.body;
 
-  if (!title || !author || !status || !openLibraryId) {
+  const allowedStatues = ["reading", "finished", "planned"];
+  if (status && !allowedStatues.includes(status)) {
+    return res.status(400).json({ error: "invalid status" });
+  }
+
+  if (!title || !author || !openLibraryId) {
     return res.status(400).json({ error: "missing required fields" });
   }
 
@@ -70,7 +75,12 @@ const editBook = async (req, res) => {
   const { status, rating, notes } = req.body;
   const dataToUpdate = {};
 
-  if (status) dataToUpdate.status = status;
+  if (status) {
+    const allowedStatues = ["reading", "finished", "planned"];
+    if (!allowedStatues.includes(status)) {
+      return res.status(400).json({ error: "invalid status" });
+    }
+  }
   if (typeof rating === "number") dataToUpdate.rating = rating;
   if (notes) dataToUpdate.notes = notes;
 
