@@ -4,17 +4,18 @@ export async function fetchBooks(query) {
   );
   const data = await res.json();
 
-  return data.docs.slice(0, 10).map((book) => {
-    const key = book.key?.split("/").pop();
-    return {
-      title: book.title,
-      author: book.author_name?.[0] || "unknown",
-      coverUrl: book.cover_i
-        ? `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`
-        : "https://via.placeholder.com/150x220?text=No+Cover",
-      id: key,
-    };
-  });
+  return data.docs
+    .filter((book) => book.cover_i && book.key)
+    .slice(0, 10)
+    .map((book) => {
+      const key = book.key?.split("/").pop();
+      return {
+        title: book.title,
+        author: book.author_name?.[0] || "unknown",
+        coverUrl: `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`,
+        id: key,
+      };
+    });
 }
 
 export async function fetchBookById(id) {
@@ -54,16 +55,15 @@ export async function fetchBooksByGenre(genre) {
   );
   const data = await res.json();
 
-  return data.docs
-    .filter((book) => book.cover_i && book.key)
-    .slice(0, 12)
-    .map((book) => {
-      const key = book.key.split("/").pop();
-      return {
-        title: book.title,
-        author: book.author_name?.[0] || "unknown",
-        coverUrl: `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`,
-        id: key,
-      };
-    });
+  const filteredBooks = data.docs.filter((book) => book.cover_i && book.key);
+
+  return filteredBooks.slice(0, 10).map((book) => {
+    const key = book.key.split("/").pop();
+    return {
+      title: book.title,
+      author: book.author_name?.[0] || "unknown",
+      coverUrl: `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`,
+      id: key,
+    };
+  });
 }
