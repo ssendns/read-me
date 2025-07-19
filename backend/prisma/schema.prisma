@@ -32,4 +32,5 @@ model Book {
   userId         Int
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  isFavorite     Boolean  @default(false)
 }
