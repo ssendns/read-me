@@ -4,9 +4,11 @@ import SearchPage from "./pages/SearchPage";
 import BookPage from "./pages/BookPage";
 import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
+import ErrorPage from "./pages/ErrorPage";
 
 export default function RouterWrapper() {
   const routes = [
+    { path: "*", element: <ErrorPage /> },
     { path: "/", element: <LandingPage /> },
     { path: "/sign-up", element: <SignUpPage /> },
     { path: "/log-in", element: <LogInPage /> },
