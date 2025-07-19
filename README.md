@@ -3,7 +3,7 @@
 **read-me** is a personal book tracker and reading journal for passionate readers.  
 it is a minimalistic, thoughtful space where you can create your own library, take notes, rate books, and track your reading journey — without unnecessary clutter. the design of Read-Me is clean, readable, and calm — focused on typography and ease of use. inspired by personal journals and reading diaries, with a touch of softness and emotion
 
-<img src="/screenshot.png" alt="read-me screenshot" width="700"/>
+<img src="./frontend/public/screenshot.png" alt="read-me screenshot" width="700"/>
 
 ---
 
