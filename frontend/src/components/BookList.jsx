@@ -11,8 +11,7 @@ export default function BookList({ query = "harry potter" }) {
 
   return (
     <section className="px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6 ml-2">discover books</h2>
-      <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
         {books.map((book) => (
           <BookCard key={book.id} {...book} />
         ))}
