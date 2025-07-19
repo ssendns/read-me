@@ -15,7 +15,7 @@ export default function MyLibraryPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-bg text-text font-typewriter px-layoutX py-layoutY">
+      <main className="mx-auto min-h-screen bg-bg text-text font-typewriter py-10">
         <h1 className="text-2xl font-bold mb-6 mt-6 text-center">my library</h1>
 
         <div className="flex justify-center gap-4 flex-wrap mb-10">
@@ -34,7 +34,9 @@ export default function MyLibraryPage() {
           ))}
         </div>
 
-        <BookList query={filter} />
+        <div className="ml-12">
+          <BookList query={filter} />
+        </div>
       </main>
     </>
   );

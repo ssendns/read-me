@@ -42,7 +42,9 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
-        <BookList query={selectedGenre} />
+        <div className="md:ml-12">
+          <BookList query={selectedGenre} />
+        </div>
       </section>
     </>
   );

@@ -9,9 +9,9 @@ export default function SearchPage() {
   return (
     <div className="bg-bg min-h-screen">
       <Header />
-      <main className="text-center bg-bg py-layoutY">
+      <main className="text-center bg-bg px-section py-10">
         <SearchBar onSearch={setQuery} />
-        {query && <BookList query={query} />}
+        <div className="md:ml-12">{query && <BookList query={query} />}</div>
       </main>
     </div>
   );

@@ -158,8 +158,8 @@ export default function BookPage() {
     <>
       <Header />
       <main className="mx-auto">
-        <div className="min-h-[60vh] flex flex-col md:flex-row items-start gap-10 mt-10 mb-10 md:mr-section">
-          <div className="w-full md:w-1/2 flex items-center justify-center min-h-[60vh]">
+        <div className="min-h-fit flex flex-col md:flex-row items-start gap-10 mt-10 mb-10 md:mr-section px-section py-10">
+          <div className="min-h-fit w-full md:w-1/2 flex items-center justify-center">
             <img
               src={book.coverUrl}
               alt={book.title}
@@ -167,7 +167,7 @@ export default function BookPage() {
             />
           </div>
 
-          <div className="flex flex-col justify-between w-full md:w-1/2 min-h-[60vh]">
+          <div className="md:min-h-[60vh] sm:min-h-fit flex flex-col md:justify-between w-full md:w-1/2">
             <div>
               <h1 className="text-3xl font-bold mb-2">{book.title}</h1>
               <p className="text-lg text-muted mb-4">by {book.author}</p>
@@ -213,8 +213,8 @@ export default function BookPage() {
           </div>
         </div>
 
-        <section className="bg-bg">
-          <h2 className="text-2xl font-bold pt-9 px-section">similar books</h2>
+        <section className="bg-bg px-section py-10">
+          <h2 className="text-2xl font-bold">similar books</h2>
           <BookList query={book.genre || "fiction"} />
         </section>
       </main>
