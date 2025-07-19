@@ -19,9 +19,12 @@ const GENRES = [
 export default function BookList({ query = "harry potter" }) {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const isGenre = GENRES.includes(query.toLowerCase());
         const result = isGenre
@@ -30,6 +33,7 @@ export default function BookList({ query = "harry potter" }) {
         setBooks(result);
       } catch (err) {
         console.error(err);
+        setError("failed to load books");
       } finally {
         setLoading(false);
       }
@@ -42,6 +46,22 @@ export default function BookList({ query = "harry potter" }) {
     return (
       <section className="text-center py-10 text-muted font-typewriter">
         loading books...
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="text-center py-10 text-red-600 font-typewriter">
+        {error}
+      </section>
+    );
+  }
+
+  if (books.length === 0) {
+    return (
+      <section className="text-center py-10 text-muted font-typewriter">
+        no books found
       </section>
     );
   }

@@ -7,12 +7,47 @@ import Header from "../components/Header";
 export default function BookPage() {
   const { id } = useParams();
   const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchBookById(id).then(setBook).catch(console.error);
+    setLoading(true);
+    setError(null);
+
+    fetchBookById(id)
+      .then((data) => setBook(data))
+      .catch((err) => {
+        console.error(err);
+        setError("failed to load book");
+      })
+      .finally(() => setLoading(false));
   }, [id]);
 
-  return book ? (
+  if (loading) {
+    return (
+      <section className="text-center py-10 text-muted font-typewriter">
+        loading book...
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="text-center py-10 text-red-600 font-typewriter">
+        {error}
+      </section>
+    );
+  }
+
+  if (!book) {
+    return (
+      <section className="text-center py-10 text-muted font-typewriter">
+        book not found.
+      </section>
+    );
+  }
+
+  return (
     <>
       <Header />
       <main className="mx-auto">
@@ -46,9 +81,5 @@ export default function BookPage() {
         </section>
       </main>
     </>
-  ) : (
-    <section className="text-center py-10 text-muted font-typewriter">
-      loading...
-    </section>
   );
 }
