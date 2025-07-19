@@ -9,9 +9,14 @@ export default function Header() {
   return (
     <header className="bg-bg text-text px-layoutX py-layoutY border-b border-color-border font-typewriter">
       <div className="flex justify-between items-center">
-        <Link to="/" className="hover:underline font-bold text-xl">
-          read-me
-        </Link>
+        <nav className="space-x-4 relative flex items-center">
+          <Link to="/" className="hover:underline font-bold text-xl">
+            read-me
+          </Link>
+          <Link to="/#" className="hover:underline">
+            about
+          </Link>
+        </nav>
 
         <nav className="space-x-4 relative flex items-center">
           <Link to="/search" className="hover:underline">
@@ -38,7 +43,7 @@ export default function Header() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="/#"
+                            to="/library/all"
                             className={`block px-4 py-2 ${
                               active ? "bg-gray-100" : ""
                             }`}
@@ -50,7 +55,7 @@ export default function Header() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="/l#"
+                            to="/library/favourites"
                             className={`block px-4 py-2 ${
                               active ? "bg-gray-100" : ""
                             }`}
@@ -62,7 +67,7 @@ export default function Header() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="/#"
+                            to="/library/finished"
                             className={`block px-4 py-2 ${
                               active ? "bg-gray-100" : ""
                             }`}
@@ -74,7 +79,7 @@ export default function Header() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="/#"
+                            to="/library/reading"
                             className={`block px-4 py-2 ${
                               active ? "bg-gray-100" : ""
                             }`}
@@ -86,7 +91,7 @@ export default function Header() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="/#"
+                            to="/library/planned"
                             className={`block px-4 py-2 ${
                               active ? "bg-gray-100" : ""
                             }`}

@@ -5,6 +5,7 @@ import BookPage from "./pages/BookPage";
 import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
 import ErrorPage from "./pages/ErrorPage";
+import MyLibraryPage from "./pages/MyLibraryPage";
 
 export default function RouterWrapper() {
   const routes = [
@@ -15,6 +16,10 @@ export default function RouterWrapper() {
     {
       path: "/search",
       element: <SearchPage />,
+    },
+    {
+      path: "/library/:filter?",
+      element: <MyLibraryPage />,
     },
     {
       path: "/books/:id",
