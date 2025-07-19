@@ -6,6 +6,7 @@ import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
 import ErrorPage from "./pages/ErrorPage";
 import MyLibraryPage from "./pages/MyLibraryPage";
+import AboutPage from "./pages/AboutPage";
 
 export default function RouterWrapper() {
   const routes = [
@@ -24,6 +25,10 @@ export default function RouterWrapper() {
     {
       path: "/books/:id",
       element: <BookPage />,
+    },
+    {
+      path: "/about",
+      element: <AboutPage />,
     },
   ];
   const router = createBrowserRouter(routes);

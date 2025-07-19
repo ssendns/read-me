@@ -20,7 +20,7 @@ export default function Header() {
           <Link to="/" className="hover:underline font-bold text-xl">
             read-me
           </Link>
-          <Link to="/#" className="hover:underline">
+          <Link to="/about" className="hover:underline">
             about
           </Link>
         </nav>
