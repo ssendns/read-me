@@ -1,12 +1,38 @@
 import { useEffect, useState } from "react";
-import { fetchBooks } from "../services/openLibrary";
+import { fetchBooks, fetchBooksByGenre } from "../services/openLibrary";
 import BookCard from "./BookCard";
+
+const GENRES = [
+  "fiction",
+  "non-fiction",
+  "romance",
+  "fantasy",
+  "science fiction",
+  "detectives",
+  "historical",
+  "biography",
+  "thriller",
+  "horror",
+  "poetry",
+];
 
 export default function BookList({ query = "harry potter" }) {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetchBooks(query).then(setBooks).catch(console.error);
+    const fetchData = async () => {
+      try {
+        const isGenre = GENRES.includes(query.toLowerCase());
+        const result = isGenre
+          ? await fetchBooksByGenre(query)
+          : await fetchBooks(query);
+        setBooks(result);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
   }, [query]);
 
   return (
