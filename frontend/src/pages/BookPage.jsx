@@ -132,6 +132,28 @@ export default function BookPage() {
     }
   };
 
+  const handleToggleFavourite = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/books/${id}/favorite`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error("failed to toggle favourite");
+      const data = await res.json();
+      setLocalBook(data.book);
+      alert("done");
+    } catch (err) {
+      console.error(err);
+      alert("could not toggle favourites");
+    }
+  };
+
   return (
     <>
       <Header />
@@ -160,6 +182,16 @@ export default function BookPage() {
                     className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition"
                   >
                     delete from library
+                  </button>
+                  <button
+                    onClick={handleToggleFavourite}
+                    className={`ml-4 px-6 py-2 rounded transition ${
+                      localBook?.isFavorite
+                        ? "bg-yellow-500 text-black hover:bg-yellow-600"
+                        : "bg-gray-300 text-black hover:bg-gray-400"
+                    }`}
+                  >
+                    {localBook?.isFavorite ? "★ remove" : "☆ add"}
                   </button>
                   <BookControls
                     openLibraryId={id}
