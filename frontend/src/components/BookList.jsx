@@ -18,6 +18,7 @@ const GENRES = [
 
 export default function BookList({ query = "harry potter" }) {
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,11 +30,21 @@ export default function BookList({ query = "harry potter" }) {
         setBooks(result);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [query]);
+
+  if (loading) {
+    return (
+      <section className="text-center py-10 text-muted font-typewriter">
+        loading books...
+      </section>
+    );
+  }
 
   return (
     <section className="px-layoutX py-layoutY bg-bg text-text font-typewriter">
