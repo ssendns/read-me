@@ -1,8 +1,8 @@
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import BookList from "./components/BookList";
+import Header from "../components/Header";
+import Hero from "../components/Hero";
+import BookList from "../components/BookList";
 
-function App() {
+export default function LandingPage() {
   return (
     <>
       <Header />
@@ -13,5 +13,3 @@ function App() {
     </>
   );
 }
-
-export default App;
