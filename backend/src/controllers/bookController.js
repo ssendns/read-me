@@ -1,0 +1,113 @@
+const prisma = require("../utils/db");
+
+const getAllBooks = async (req, res) => {
+  const userId = req.user.userId;
+  const books = await prisma.book.findMany({
+    where: { userId: userId },
+    orderBy: { createdAt: "desc" },
+  });
+
+  res.status(200).json({ books });
+};
+
+const getBookById = async (req, res) => {
+  const userId = req.user.userId;
+  const bookId = Number(req.params.id);
+  const book = await prisma.book.findUnique({
+    where: { id: bookId, userId: userId },
+  });
+
+  if (!book) {
+    return res.status(400).json({ error: "can not find book" });
+  }
+
+  res.status(200).json({ book });
+};
+
+const addBook = async (req, res) => {
+  const userId = req.user.userId;
+  const {
+    title,
+    author,
+    status,
+    openLibraryId,
+    coverUrl,
+    genre,
+    description,
+    rating,
+    notes,
+  } = req.body;
+
+  if (!title || !author || !status || !openLibraryId) {
+    return res.status(400).json({ error: "missing required fields" });
+  }
+
+  if (typeof rating === "number" && !(rating >= 0 && rating <= 5)) {
+    return res.status(400).json({ error: "rating should be beetween 0 and 5" });
+  }
+
+  const book = await prisma.book.create({
+    data: {
+      title,
+      author,
+      status,
+      openLibraryId,
+      coverUrl,
+      genre,
+      description,
+      rating: rating || 0,
+      notes: notes || null,
+      userId,
+    },
+  });
+
+  res.status(201).json({ book });
+};
+
+const editBook = async (req, res) => {
+  const userId = req.user.userId;
+  const bookId = Number(req.params.id);
+  const { status, rating, notes } = req.body;
+  const dataToUpdate = {};
+
+  if (status) dataToUpdate.status = status;
+  if (typeof rating === "number") dataToUpdate.rating = rating;
+  if (notes) dataToUpdate.notes = notes;
+
+  if (Object.keys(dataToUpdate).length === 0) {
+    return res.status(400).json({ error: "nothing to update" });
+  }
+
+  const existing = await prisma.book.findUnique({
+    where: { id: bookId, userId: userId },
+  });
+
+  if (!existing) {
+    return res.status(400).json({ error: "can not find the book" });
+  }
+
+  const updated = await prisma.book.update({
+    where: { id: bookId, userId: userId },
+    data: dataToUpdate,
+  });
+
+  res.status(200).json({ book: updated });
+};
+
+const deleteBook = async (req, res) => {
+  const userId = req.user.userId;
+  const bookId = Number(req.params.id);
+
+  const existing = await prisma.book.findUnique({
+    where: { id: bookId, userId: userId },
+  });
+
+  if (!existing) {
+    return res.status(400).json({ error: "can not find the book" });
+  }
+
+  await prisma.book.delete({ where: { id: bookId, userId: userId } });
+  res.status(204).send();
+};
+
+module.exports = { getAllBooks, getBookById, addBook, editBook, deleteBook };
