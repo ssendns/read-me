@@ -29,9 +29,9 @@ const getAllBooks = async (req, res) => {
 
 const getBookById = async (req, res) => {
   const userId = req.user.userId;
-  const bookId = Number(req.params.id);
+  const openLibraryId = req.params.openLibraryId;
   const book = await prisma.book.findUnique({
-    where: { id: bookId, userId: userId },
+    where: { userId, openLibraryId },
   });
 
   if (!book) {
@@ -89,7 +89,7 @@ const addBook = async (req, res) => {
 
 const editBook = async (req, res) => {
   const userId = req.user.userId;
-  const bookId = Number(req.params.id);
+  const openLibraryId = req.params.openLibraryId;
   const { status, rating, notes, isFavorite } = req.body;
   const dataToUpdate = {};
 
@@ -119,7 +119,7 @@ const editBook = async (req, res) => {
   }
 
   const existing = await prisma.book.findUnique({
-    where: { id: bookId, userId: userId },
+    where: { userId, openLibraryId },
   });
 
   if (!existing) {
@@ -127,7 +127,7 @@ const editBook = async (req, res) => {
   }
 
   const updated = await prisma.book.update({
-    where: { id: bookId, userId: userId },
+    where: { userId, openLibraryId },
     data: dataToUpdate,
   });
 
@@ -136,17 +136,17 @@ const editBook = async (req, res) => {
 
 const deleteBook = async (req, res) => {
   const userId = req.user.userId;
-  const bookId = Number(req.params.id);
+  const openLibraryId = req.params.openLibraryId;
 
   const existing = await prisma.book.findUnique({
-    where: { id: bookId, userId: userId },
+    where: { userId, openLibraryId },
   });
 
   if (!existing) {
     return res.status(400).json({ error: "can not find the book" });
   }
 
-  await prisma.book.delete({ where: { id: bookId, userId: userId } });
+  await prisma.book.delete({ where: { userId, openLibraryId } });
   res.status(204).send();
 };
 
@@ -155,7 +155,7 @@ const toggleFavorite = async (req, res) => {
   const bookId = Number(req.params.id);
 
   const existing = await prisma.book.findUnique({
-    where: { id: bookId, userId: userId },
+    where: { userId, openLibraryId },
   });
 
   if (!existing) {
@@ -163,7 +163,7 @@ const toggleFavorite = async (req, res) => {
   }
 
   const updated = await prisma.book.update({
-    where: { id: bookId, userId: userId },
+    where: { userId, openLibraryId },
     data: { isFavorite: !existing.isFavorite },
   });
   res.status(200).json({ book: updated });
