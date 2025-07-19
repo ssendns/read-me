@@ -1,10 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 
 export default function Header() {
   const username = localStorage.getItem("username");
   const isLoggedIn = Boolean(username);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    navigate("/log-in");
+  };
 
   return (
     <header className="bg-bg text-text px-layoutX py-layoutY border-b border-color-border font-typewriter">
@@ -54,14 +61,14 @@ export default function Header() {
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <Link
-                            to="/#"
+                          <p
+                            onClick={handleLogout}
                             className={`block px-4 py-2 ${
                               active ? "bg-gray-100" : ""
                             }`}
                           >
                             log out
-                          </Link>
+                          </p>
                         )}
                       </Menu.Item>
                     </div>
