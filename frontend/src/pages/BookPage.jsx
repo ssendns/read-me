@@ -8,6 +8,7 @@ export default function BookPage() {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,6 +57,36 @@ export default function BookPage() {
     );
   }
 
+  const handleAddToLibrary = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/books", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: book.title,
+          author: book.author,
+          openLibraryId: id,
+          description: book.description,
+          coverUrl: book.coverUrl,
+          genre: book.genre,
+          status: "planned",
+          rating: 0,
+        }),
+      });
+
+      if (!res.ok) throw new Error("failed to add book");
+
+      const data = await res.json();
+      alert("book added!");
+    } catch (err) {
+      console.error(err);
+      alert("could not add book");
+    }
+  };
+
   return (
     <>
       <Header />
@@ -77,7 +108,10 @@ export default function BookPage() {
             </div>
 
             <div className="pt-6">
-              <button className="bg-accent text-on-accent px-6 py-2 rounded hover:bg-accenthover transition">
+              <button
+                onClick={handleAddToLibrary}
+                className="bg-accent text-on-accent px-6 py-2 rounded hover:bg-accenthover transition"
+              >
                 add to library
               </button>
             </div>
