@@ -128,6 +128,24 @@ describe("book routes", () => {
     expect(res.body).toHaveProperty("error", "invalid status");
   });
 
+  it("should toggle book to favorite", async () => {
+    const res = await request(app)
+      .patch(`/api/books/${bookId}/favorite`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.book).toHaveProperty("isFavorite", true);
+  });
+
+  it("should toggle book back from favorite", async () => {
+    const res = await request(app)
+      .patch(`/api/books/${bookId}/favorite`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.book).toHaveProperty("isFavorite", false);
+  });
+
   it("should delete a book", async () => {
     const res = await request(app)
       .delete(`/api/books/${bookId}`)

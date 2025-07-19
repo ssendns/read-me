@@ -130,4 +130,30 @@ const deleteBook = async (req, res) => {
   res.status(204).send();
 };
 
-module.exports = { getAllBooks, getBookById, addBook, editBook, deleteBook };
+const toggleFavorite = async (req, res) => {
+  const userId = req.user.userId;
+  const bookId = Number(req.params.id);
+
+  const existing = await prisma.book.findUnique({
+    where: { id: bookId, userId: userId },
+  });
+
+  if (!existing) {
+    return res.status(400).json({ error: "can not find the book" });
+  }
+
+  const updated = await prisma.book.update({
+    where: { id: bookId, userId: userId },
+    data: { isFavorite: !existing.isFavorite },
+  });
+  res.status(200).json({ book: updated });
+};
+
+module.exports = {
+  getAllBooks,
+  getBookById,
+  addBook,
+  editBook,
+  deleteBook,
+  toggleFavorite,
+};
