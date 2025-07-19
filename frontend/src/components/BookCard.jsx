@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 
-export default function BookCard({ title, author, coverUrl, openLibraryId }) {
+export default function BookCard({
+  id,
+  title,
+  author,
+  coverUrl,
+  openLibraryId,
+}) {
+  const linkPath = openLibraryId ? `/books/${openLibraryId}` : `/books/${id}`;
+
   return (
     <Link
-      to={`/books/${openLibraryId}`}
+      to={linkPath}
       className="bg-bg text-text rounded-lg shadow-card p-block flex flex-col items-center justify-center w-60 hover:shadow-md transition font-typewriter"
     >
       <img
