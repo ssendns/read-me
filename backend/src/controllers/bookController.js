@@ -102,6 +102,7 @@ const editBook = async (req, res) => {
     if (!allowedStatuses.includes(status)) {
       return res.status(400).json({ error: "invalid status" });
     }
+    dataToUpdate.status = status;
   }
   if (typeof rating === "number") {
     dataToUpdate.rating = rating;

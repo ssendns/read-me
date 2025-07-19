@@ -2,12 +2,15 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BookList from "../components/BookList";
 import Header from "../components/Header";
+import BookControls from "../components/BookControls";
 
 export default function BookPage() {
   const { id } = useParams();
   const [book, setBook] = useState(null);
+  const [localBook, setLocalBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isInLibrary, setIsInLibrary] = useState(false);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -30,8 +33,28 @@ export default function BookPage() {
       }
     };
 
-    fetchData();
-  }, [id]);
+    const checkIfInLibrary = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/api/books/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setLocalBook(data.book);
+          setIsInLibrary(true);
+        } else {
+          setIsInLibrary(false);
+        }
+      } catch (e) {
+        console.error("error checking book in library:", e);
+        setIsInLibrary(false);
+      }
+    };
+
+    fetchData().then(checkIfInLibrary);
+  }, [id, token]);
 
   if (loading) {
     return (
@@ -80,10 +103,32 @@ export default function BookPage() {
       if (!res.ok) throw new Error("failed to add book");
 
       const data = await res.json();
+      setLocalBook(data);
+      setIsInLibrary(true);
       alert("book added!");
     } catch (err) {
       console.error(err);
       alert("could not add book");
+    }
+  };
+
+  const handleDeleteFromLibrary = async () => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/books/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("failed to delete");
+
+      alert("book removed!");
+      setLocalBook(null);
+      setIsInLibrary(false);
+    } catch (err) {
+      console.error(err);
+      alert("could not delete book");
     }
   };
 
@@ -108,12 +153,30 @@ export default function BookPage() {
             </div>
 
             <div className="pt-6">
-              <button
-                onClick={handleAddToLibrary}
-                className="bg-accent text-on-accent px-6 py-2 rounded hover:bg-accenthover transition"
-              >
-                add to library
-              </button>
+              {isInLibrary ? (
+                <div>
+                  <button
+                    onClick={handleDeleteFromLibrary}
+                    className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition"
+                  >
+                    delete from library
+                  </button>
+                  <BookControls
+                    openLibraryId={id}
+                    token={token}
+                    initialStatus={localBook.status}
+                    initialNotes={localBook.notes}
+                    initialRating={localBook.rating}
+                  />
+                </div>
+              ) : (
+                <button
+                  onClick={handleAddToLibrary}
+                  className="bg-accent text-on-accent px-6 py-2 rounded hover:bg-accenthover transition"
+                >
+                  add to library
+                </button>
+              )}
             </div>
           </div>
         </div>
