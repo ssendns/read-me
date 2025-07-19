@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const prisma = require("../config/db");
+const prisma = require("../utils/db");
+const generateToken = require("../utils/generateToken");
 
 const signUp = async (req, res) => {
   const { username, password } = req.body;
@@ -17,8 +18,10 @@ const signUp = async (req, res) => {
     },
   });
 
+  const token = generateToken(user.id);
+
   res.status(201).json({
-    user: { id: user.id, username: user.username, password: user.password },
+    user: { id: user.id, username: user.username, token },
   });
 };
 
@@ -30,11 +33,10 @@ const logIn = async (req, res) => {
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) return res.status(400).json({ error: "invalid credentials" });
 
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
+  const token = generateToken(user.id);
+
   res.status(200).json({
-    user: { id: user.id, username: user.username },
+    user: { id: user.id, username: user.username, token },
   });
 };
 
