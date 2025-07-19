@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const prisma = require("./config/db");
-
 dotenv.config();
+const prisma = require("./utils/db");
+
 const app = express();
 const PORT = process.env.PORT;
 
@@ -19,6 +19,4 @@ app.get("/api/test", async (req, res) => {
   res.json(users);
 });
 
-app.listen(PORT, () => {
-  console.log(`server running at http://localhost:${PORT}`);
-});
+module.exports = app;
