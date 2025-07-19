@@ -1,6 +1,11 @@
-export default function BookCard({ title, author, coverUrl }) {
+import { Link } from "react-router-dom";
+
+export default function BookCard({ id, title, author, coverUrl }) {
   return (
-    <div className="bg-white rounded-xl shadow p-2 flex flex-col items-center justify-center w-60">
+    <Link
+      to={`/books/${id}`}
+      className="bg-white rounded-xl shadow p-2 flex flex-col items-center justify-center w-60 hover:shadow-md transition"
+    >
       <img
         src={coverUrl}
         alt={title}
@@ -8,6 +13,6 @@ export default function BookCard({ title, author, coverUrl }) {
       />
       <h2 className="text-center text-lg font-semibold">{title}</h2>
       <p className="text-sm text-gray-600 text-center">{author}</p>
-    </div>
+    </Link>
   );
 }
