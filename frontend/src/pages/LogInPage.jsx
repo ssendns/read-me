@@ -58,7 +58,10 @@ export default function LogInPage() {
           log in
         </button>
         <p>
-          do not have an account? <Link to="/sign-up">sign up</Link>
+          do not have an account?{" "}
+          <Link to="/sign-up" className="hover:underline">
+            sign up
+          </Link>
         </p>
       </form>
     </main>

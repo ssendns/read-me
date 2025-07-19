@@ -60,7 +60,10 @@ export default function SignUpPage() {
           sign up
         </button>
         <p>
-          already have an account? <Link to="/log-in">log in</Link>
+          already have an account?{" "}
+          <Link to="/log-in" className="hover:underline">
+            log in
+          </Link>
         </p>
       </form>
     </main>
