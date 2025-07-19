@@ -47,6 +47,8 @@ export default function BookPage() {
       </main>
     </>
   ) : (
-    <p className="text-center mt-10">loading...</p>
+    <section className="text-center py-10 text-muted font-typewriter">
+      loading...
+    </section>
   );
 }
