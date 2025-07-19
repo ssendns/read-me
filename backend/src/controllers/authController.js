@@ -40,18 +40,4 @@ const logIn = async (req, res) => {
   });
 };
 
-const getProfile = async (req, res) => {
-  const userId = req.user.userId;
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: {
-      id: true,
-      username: true,
-    },
-  });
-  res.status(200).json({
-    user: { id: user.id, username: user.username },
-  });
-};
-
-module.exports = { signUp, logIn, getProfile };
+module.exports = { signUp, logIn };
