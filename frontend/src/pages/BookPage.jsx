@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchBookById } from "../services/openLibrary";
 import BookList from "../components/BookList";
 import Header from "../components/Header";
 
@@ -11,16 +10,26 @@ export default function BookPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
 
-    fetchBookById(id)
-      .then((data) => setBook(data))
-      .catch((err) => {
+      try {
+        const res = await fetch(`http://localhost:3000/openlibrary/${id}`);
+        if (!res.ok) {
+          throw new Error("failed to fetch book");
+        }
+        const data = await res.json();
+        setBook(data);
+      } catch (err) {
         console.error(err);
         setError("failed to load book");
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [id]);
 
   if (loading) {

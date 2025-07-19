@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { fetchBooks, fetchBooksByGenre } from "../services/openLibrary";
 import BookCard from "./BookCard";
 
 const GENRES = [
@@ -30,17 +29,14 @@ export default function BookList({ query = "harry potter" }) {
       try {
         const token = localStorage.getItem("token");
         const lowerQuery = query.toLowerCase();
-        let result;
+        let res;
 
         if (lowerQuery === "all") {
-          const res = await fetch(`http://localhost:3000/api/books`, {
+          res = await fetch(`http://localhost:3000/api/books`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          if (!res.ok) throw new Error("failed to fetch user books");
-          const data = await res.json();
-          result = data.books;
         } else if (USER_CATEGORIES.includes(lowerQuery)) {
           const url = new URL("http://localhost:3000/api/books");
           if (lowerQuery === "favourites") {
@@ -48,21 +44,30 @@ export default function BookList({ query = "harry potter" }) {
           } else {
             url.searchParams.append("status", lowerQuery);
           }
-          const res = await fetch(url.toString(), {
+          res = await fetch(url.toString(), {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          if (!res.ok) throw new Error("Failed to fetch user books");
-          const data = await res.json();
-          result = data.books;
         } else if (GENRES.includes(lowerQuery)) {
-          result = await fetchBooksByGenre(query);
+          res = await fetch(
+            `http://localhost:3000/openlibrary/genre?q=${encodeURIComponent(
+              query
+            )}`
+          );
         } else {
-          result = await fetchBooks(query);
+          res = await fetch(
+            `http://localhost:3000/openlibrary?q=${encodeURIComponent(query)}`
+          );
         }
 
-        setBooks(result);
+        if (!res.ok) throw new Error("failed to fetch books");
+        const data = await res.json();
+        if (!Array.isArray(data)) {
+          setBooks(data.books);
+        } else {
+          setBooks(data);
+        }
       } catch (err) {
         console.error(err);
         setError("failed to load books");
