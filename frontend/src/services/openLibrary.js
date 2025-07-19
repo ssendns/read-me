@@ -58,7 +58,9 @@ export async function fetchBooksByGenre(genre) {
 
   const filteredBooks = data.docs.filter((book) => book.cover_i && book.key);
 
-  return filteredBooks.slice(0, 10).map((book) => {
+  const shuffled = filteredBooks.sort(() => Math.random() - 0.5);
+
+  return shuffled.slice(0, 10).map((book) => {
     const key = book.key.split("/").pop();
     return {
       title: book.title,
