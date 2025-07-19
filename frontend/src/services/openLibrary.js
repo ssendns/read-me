@@ -5,6 +5,7 @@ export async function fetchBooks(query) {
   const data = await res.json();
 
   return data.docs
+    .filter((book) => book.title.toLowerCase().includes(query.toLowerCase()))
     .filter((book) => book.cover_i && book.key)
     .slice(0, 10)
     .map((book) => {
