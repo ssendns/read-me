@@ -59,6 +59,48 @@ describe("book routes", () => {
     expect(res.body.book.id).toBe(bookId);
   });
 
+  it("should get books with status 'reading'", async () => {
+    await request(app)
+      .post("/api/books")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        title: "test book2",
+        author: "test author",
+        status: "reading",
+        openLibraryId: "OL123M2",
+      });
+
+    await request(app)
+      .post("/api/books")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        title: "test book3",
+        author: "test author",
+        status: "planned",
+        openLibraryId: "OL123M3",
+      });
+
+    const res = await request(app)
+      .get("/api/books?status=reading")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(Array.isArray(res.body.books)).toBe(true);
+    expect(res.body.books.length).toBeGreaterThan(0);
+    res.body.books.forEach((book) => {
+      expect(book.status).toBe("reading");
+    });
+  });
+
+  it("should return 400 for invalid status in filter", async () => {
+    const res = await request(app)
+      .get("/api/books?status=lalala")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toHaveProperty("error", "invalid status");
+  });
+
   it("should edit a book", async () => {
     const res = await request(app)
       .patch(`/api/books/${bookId}`)
@@ -95,7 +137,6 @@ describe("book routes", () => {
   });
 
   afterAll(async () => {
-    await prisma.book.deleteMany({ where: { title: "test book" } });
     await prisma.user.deleteMany({ where: { username: "testuser" } });
     await prisma.$disconnect;
   });

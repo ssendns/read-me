@@ -1,9 +1,21 @@
 const prisma = require("../utils/db");
 
+const allowedStatuses = ["reading", "finished", "planned"];
+
 const getAllBooks = async (req, res) => {
   const userId = req.user.userId;
+  const status = req.query.status;
+
+  const filter = { userId };
+  if (status !== undefined) {
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({ error: "invalid status" });
+    }
+    filter.status = status;
+  }
+
   const books = await prisma.book.findMany({
-    where: { userId: userId },
+    where: filter,
     orderBy: { createdAt: "desc" },
   });
 
@@ -38,8 +50,7 @@ const addBook = async (req, res) => {
     notes,
   } = req.body;
 
-  const allowedStatues = ["reading", "finished", "planned"];
-  if (status && !allowedStatues.includes(status)) {
+  if (status && !allowedStatuses.includes(status)) {
     return res.status(400).json({ error: "invalid status" });
   }
 
@@ -76,8 +87,7 @@ const editBook = async (req, res) => {
   const dataToUpdate = {};
 
   if (status) {
-    const allowedStatues = ["reading", "finished", "planned"];
-    if (!allowedStatues.includes(status)) {
+    if (!allowedStatuses.includes(status)) {
       return res.status(400).json({ error: "invalid status" });
     }
   }
