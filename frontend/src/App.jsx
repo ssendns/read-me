@@ -1,5 +1,17 @@
-export default function App() {
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import BookList from "./components/BookList";
+
+function App() {
   return (
-    <div className="text-2xl font-bold text-blue-500 bg-red-500">test</div>
+    <>
+      <Header />
+      <Hero />
+      <section className="min-h-screen bg-gray-50">
+        <BookList query="the little prince" />
+      </section>
+    </>
   );
 }
+
+export default App;
