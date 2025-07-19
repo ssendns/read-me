@@ -4,7 +4,6 @@ import Hero from "../components/Hero";
 import BookList from "../components/BookList";
 
 const GENRES = [
-  "popular",
   "fiction",
   "non-fiction",
   "romance",
@@ -19,7 +18,7 @@ const GENRES = [
 ];
 
 export default function LandingPage() {
-  const [selectedGenre, setSelectedGenre] = useState("popular");
+  const [selectedGenre, setSelectedGenre] = useState("fiction");
   return (
     <>
       <Header />
