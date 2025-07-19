@@ -16,6 +16,8 @@ const GENRES = [
   "poetry",
 ];
 
+const USER_CATEGORIES = ["favourites", "finished", "reading", "planned"];
+
 export default function BookList({ query = "harry potter" }) {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,10 +28,40 @@ export default function BookList({ query = "harry potter" }) {
       setLoading(true);
       setError(null);
       try {
-        const isGenre = GENRES.includes(query.toLowerCase());
-        const result = isGenre
-          ? await fetchBooksByGenre(query)
-          : await fetchBooks(query);
+        const token = localStorage.getItem("token");
+        const lowerQuery = query.toLowerCase();
+        let result;
+
+        if (lowerQuery === "all") {
+          const res = await fetch(`http://localhost:3000/api/books`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (!res.ok) throw new Error("failed to fetch user books");
+          const data = await res.json();
+          result = data.books;
+        } else if (USER_CATEGORIES.includes(lowerQuery)) {
+          const url = new URL("http://localhost:3000/api/books");
+          if (lowerQuery === "favourites") {
+            url.searchParams.append("favorite", "true");
+          } else {
+            url.searchParams.append("status", lowerQuery);
+          }
+          const res = await fetch(url.toString(), {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (!res.ok) throw new Error("Failed to fetch user books");
+          const data = await res.json();
+          result = data.books;
+        } else if (GENRES.includes(lowerQuery)) {
+          result = await fetchBooksByGenre(query);
+        } else {
+          result = await fetchBooks(query);
+        }
+
         setBooks(result);
       } catch (err) {
         console.error(err);
