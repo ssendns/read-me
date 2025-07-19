@@ -31,7 +31,12 @@ const getBookById = async (req, res) => {
   const userId = req.user.userId;
   const openLibraryId = req.params.openLibraryId;
   const book = await prisma.book.findUnique({
-    where: { userId, openLibraryId },
+    where: {
+      userId_openLibraryId: {
+        userId,
+        openLibraryId,
+      },
+    },
   });
 
   if (!book) {
@@ -119,7 +124,12 @@ const editBook = async (req, res) => {
   }
 
   const existing = await prisma.book.findUnique({
-    where: { userId, openLibraryId },
+    where: {
+      userId_openLibraryId: {
+        userId,
+        openLibraryId,
+      },
+    },
   });
 
   if (!existing) {
@@ -127,7 +137,12 @@ const editBook = async (req, res) => {
   }
 
   const updated = await prisma.book.update({
-    where: { userId, openLibraryId },
+    where: {
+      userId_openLibraryId: {
+        userId,
+        openLibraryId,
+      },
+    },
     data: dataToUpdate,
   });
 
@@ -139,23 +154,40 @@ const deleteBook = async (req, res) => {
   const openLibraryId = req.params.openLibraryId;
 
   const existing = await prisma.book.findUnique({
-    where: { userId, openLibraryId },
+    where: {
+      userId_openLibraryId: {
+        userId,
+        openLibraryId,
+      },
+    },
   });
 
   if (!existing) {
     return res.status(400).json({ error: "can not find the book" });
   }
 
-  await prisma.book.delete({ where: { userId, openLibraryId } });
+  await prisma.book.delete({
+    where: {
+      userId_openLibraryId: {
+        userId,
+        openLibraryId,
+      },
+    },
+  });
   res.status(204).send();
 };
 
 const toggleFavorite = async (req, res) => {
   const userId = req.user.userId;
-  const bookId = Number(req.params.id);
+  const openLibraryId = req.params.openLibraryId;
 
   const existing = await prisma.book.findUnique({
-    where: { userId, openLibraryId },
+    where: {
+      userId_openLibraryId: {
+        userId,
+        openLibraryId,
+      },
+    },
   });
 
   if (!existing) {
@@ -163,7 +195,12 @@ const toggleFavorite = async (req, res) => {
   }
 
   const updated = await prisma.book.update({
-    where: { userId, openLibraryId },
+    where: {
+      userId_openLibraryId: {
+        userId,
+        openLibraryId,
+      },
+    },
     data: { isFavorite: !existing.isFavorite },
   });
   res.status(200).json({ book: updated });

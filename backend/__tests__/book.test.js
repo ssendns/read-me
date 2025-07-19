@@ -3,7 +3,7 @@ const app = require("../src/app");
 const prisma = require("../src/utils/db");
 
 let token;
-let bookId;
+let openLibraryId;
 
 describe("book routes", () => {
   beforeAll(async () => {
@@ -33,10 +33,10 @@ describe("book routes", () => {
       });
 
     expect(res.statusCode).toBe(201);
-    expect(res.body.book).toHaveProperty("id");
+    expect(res.body.book).toHaveProperty("openLibraryId");
     expect(res.body.book.title).toBe("test book");
 
-    bookId = res.body.book.id;
+    openLibraryId = res.body.book.openLibraryId;
   });
 
   it("should get all books for the user", async () => {
@@ -49,14 +49,14 @@ describe("book routes", () => {
     expect(res.body.books.length).toBeGreaterThan(0);
   });
 
-  it("should get book by id", async () => {
+  it("should get book by openLib id", async () => {
     const res = await request(app)
-      .get(`/api/books/${bookId}`)
+      .get(`/api/books/${openLibraryId}`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.book).toHaveProperty("id");
-    expect(res.body.book.id).toBe(bookId);
+    expect(res.body.book).toHaveProperty("openLibraryId");
+    expect(res.body.book.openLibraryId).toBe(openLibraryId);
   });
 
   it("should get books with status 'reading'", async () => {
@@ -138,7 +138,7 @@ describe("book routes", () => {
 
   it("should edit a book", async () => {
     const res = await request(app)
-      .patch(`/api/books/${bookId}`)
+      .patch(`/api/books/${openLibraryId}`)
       .set("Authorization", `Bearer ${token}`)
       .send({
         rating: 5,
@@ -147,7 +147,7 @@ describe("book routes", () => {
       });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.book).toHaveProperty("id");
+    expect(res.body.book).toHaveProperty("openLibraryId");
     expect(res.body.book.rating).toBe(5);
     expect(res.body.book.notes).toBe("new notes");
     expect(res.body.book.isFavorite).toBe(true);
@@ -155,7 +155,7 @@ describe("book routes", () => {
 
   it("should return 400 for invalid status", async () => {
     const res = await request(app)
-      .patch(`/api/books/${bookId}`)
+      .patch(`/api/books/${openLibraryId}`)
       .set("Authorization", `Bearer ${token}`)
       .send({
         status: "lalala",
@@ -167,7 +167,7 @@ describe("book routes", () => {
 
   it("should toggle book back from favorite", async () => {
     const res = await request(app)
-      .patch(`/api/books/${bookId}/favorite`)
+      .patch(`/api/books/${openLibraryId}/favorite`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(res.statusCode).toBe(200);
@@ -176,7 +176,7 @@ describe("book routes", () => {
 
   it("should toggle book to favorite", async () => {
     const res = await request(app)
-      .patch(`/api/books/${bookId}/favorite`)
+      .patch(`/api/books/${openLibraryId}/favorite`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(res.statusCode).toBe(200);
@@ -185,7 +185,7 @@ describe("book routes", () => {
 
   it("should delete a book", async () => {
     const res = await request(app)
-      .delete(`/api/books/${bookId}`)
+      .delete(`/api/books/${openLibraryId}`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(res.statusCode).toBe(204);
