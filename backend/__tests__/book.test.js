@@ -92,6 +92,41 @@ describe("book routes", () => {
     });
   });
 
+  it("should get books from favourites", async () => {
+    await request(app)
+      .post("/api/books")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        title: "test book4",
+        author: "test author",
+        status: "finished",
+        openLibraryId: "OL123M4",
+        isFavorite: true,
+      });
+
+    await request(app)
+      .post("/api/books")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        title: "test book5",
+        author: "test author",
+        status: "finished",
+        openLibraryId: "OL123M5",
+        isFavorite: false,
+      });
+
+    const res = await request(app)
+      .get("/api/books?favorite=true")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(Array.isArray(res.body.books)).toBe(true);
+    expect(res.body.books.length).toBeGreaterThan(0);
+    res.body.books.forEach((book) => {
+      expect(book.isFavorite).toBe(true);
+    });
+  });
+
   it("should return 400 for invalid status in filter", async () => {
     const res = await request(app)
       .get("/api/books?status=lalala")
@@ -108,12 +143,14 @@ describe("book routes", () => {
       .send({
         rating: 5,
         notes: "new notes",
+        isFavorite: true,
       });
 
     expect(res.statusCode).toBe(200);
     expect(res.body.book).toHaveProperty("id");
     expect(res.body.book.rating).toBe(5);
     expect(res.body.book.notes).toBe("new notes");
+    expect(res.body.book.isFavorite).toBe(true);
   });
 
   it("should return 400 for invalid status", async () => {
@@ -128,15 +165,6 @@ describe("book routes", () => {
     expect(res.body).toHaveProperty("error", "invalid status");
   });
 
-  it("should toggle book to favorite", async () => {
-    const res = await request(app)
-      .patch(`/api/books/${bookId}/favorite`)
-      .set("Authorization", `Bearer ${token}`);
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.book).toHaveProperty("isFavorite", true);
-  });
-
   it("should toggle book back from favorite", async () => {
     const res = await request(app)
       .patch(`/api/books/${bookId}/favorite`)
@@ -144,6 +172,15 @@ describe("book routes", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.book).toHaveProperty("isFavorite", false);
+  });
+
+  it("should toggle book to favorite", async () => {
+    const res = await request(app)
+      .patch(`/api/books/${bookId}/favorite`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.book).toHaveProperty("isFavorite", true);
   });
 
   it("should delete a book", async () => {

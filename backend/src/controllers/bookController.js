@@ -14,6 +14,11 @@ const getAllBooks = async (req, res) => {
     filter.status = status;
   }
 
+  const isFavorite = req.query.favorite;
+  if (isFavorite === "true") {
+    filter.isFavorite = true;
+  }
+
   const books = await prisma.book.findMany({
     where: filter,
     orderBy: { createdAt: "desc" },
@@ -48,6 +53,7 @@ const addBook = async (req, res) => {
     description,
     rating,
     notes,
+    isFavorite,
   } = req.body;
 
   if (status && !allowedStatuses.includes(status)) {
@@ -74,6 +80,7 @@ const addBook = async (req, res) => {
       rating: rating || 0,
       notes: notes || null,
       userId,
+      isFavorite: isFavorite ?? false,
     },
   });
 
@@ -83,7 +90,7 @@ const addBook = async (req, res) => {
 const editBook = async (req, res) => {
   const userId = req.user.userId;
   const bookId = Number(req.params.id);
-  const { status, rating, notes } = req.body;
+  const { status, rating, notes, isFavorite } = req.body;
   const dataToUpdate = {};
 
   if (status) {
@@ -91,8 +98,21 @@ const editBook = async (req, res) => {
       return res.status(400).json({ error: "invalid status" });
     }
   }
-  if (typeof rating === "number") dataToUpdate.rating = rating;
-  if (notes) dataToUpdate.notes = notes;
+  if (typeof rating === "number") {
+    dataToUpdate.rating = rating;
+  }
+
+  if (typeof notes === "string") {
+    dataToUpdate.notes = notes;
+  }
+
+  if (
+    typeof isFavorite === "boolean" ||
+    isFavorite === "true" ||
+    isFavorite === "false"
+  ) {
+    dataToUpdate.isFavorite = isFavorite === true || isFavorite === "true";
+  }
 
   if (Object.keys(dataToUpdate).length === 0) {
     return res.status(400).json({ error: "nothing to update" });
