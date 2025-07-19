@@ -27,7 +27,7 @@ export default function Header() {
             <>
               <Menu as="div" className="relative inline-block text-left">
                 <Menu.Button className="hover:underline focus:outline-none">
-                  my library
+                  @{username}
                 </Menu.Button>
                 <Transition
                   as={Fragment}
@@ -43,60 +43,24 @@ export default function Header() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="/library/all"
+                            to="/library"
                             className={`block px-4 py-2 ${
                               active ? "bg-gray-100" : ""
                             }`}
                           >
-                            all books
+                            my library
                           </Link>
                         )}
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="/library/favourites"
+                            to="/#"
                             className={`block px-4 py-2 ${
                               active ? "bg-gray-100" : ""
                             }`}
                           >
-                            favourites
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            to="/library/finished"
-                            className={`block px-4 py-2 ${
-                              active ? "bg-gray-100" : ""
-                            }`}
-                          >
-                            finished
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            to="/library/reading"
-                            className={`block px-4 py-2 ${
-                              active ? "bg-gray-100" : ""
-                            }`}
-                          >
-                            reading
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            to="/library/planned"
-                            className={`block px-4 py-2 ${
-                              active ? "bg-gray-100" : ""
-                            }`}
-                          >
-                            planned
+                            log out
                           </Link>
                         )}
                       </Menu.Item>
@@ -104,10 +68,6 @@ export default function Header() {
                   </Menu.Items>
                 </Transition>
               </Menu>
-
-              <Link to="/#" className="hover:underline">
-                @{username}
-              </Link>
             </>
           ) : (
             <>
