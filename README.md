@@ -1,68 +1,64 @@
 # read-me
 
-**read-me** is a personal book tracker and reading journal for passionate readers.  
-it is a minimalistic, thoughtful space where you can create your own library, take notes, rate books, and track your reading journey — without unnecessary clutter. the design of Read-Me is clean, readable, and calm — focused on typography and ease of use. inspired by personal journals and reading diaries, with a touch of softness and emotion
+**read-me** is a personal book tracker and reading journal for passionate readers. track what you read, explore new books, set your own categories, and keep a personal archive of your thoughts and ratings. the design of read-me is clean, readable, and calm, inspired by personal journals and reading diaries. everything (from backend to interface) is custom-built with modern web technologies and practicies.
 
-<img src="./frontend/public/screenshot.png" alt="read-me screenshot" width="700"/>
+<img src="./frontend/public/read-me.png" alt="read-me screenshot" width="700"/>
 
 ---
 
 ## features
 
-- **book discovery** — search and explore books via the Open Library API
-- **personal library** — save books you love or want to read
-- **reading status** — mark books as _planned_, _reading_, or _finished_
-- **ratings** — rate each book you have read
-- **private notes** — keep personal reflections on every book
-- **favorites** — highlight books that mean the most to you
-- **categorized views** — filter your library by reading status or favorites
-- **responsive UI** — looks great on desktop and mobile
-- **JWT authentication** — secure login and personal user space
+- **user authentication** with JWT + password hashing
+- **persistent backend** (PostgreSQL + Prisma)
+- **book search via Open Library API** - fetch title, author, cover, description, and genre
+- **personal library** - save books you love or want to read with rating, notes, and status (to-read, reading, finished)
+- **favorites** - highlight your favorite books
+- **categorized views** for personalized sorting (favourites, reading status, genres etc)
+- **backend tests** (jest + supertest)
+- **responsive UI** with React 19 + Tailwind
+- **custom components** (e.g. `BookCard`, `BookControls`, `BookList`)
 
 ---
 
 ## tech stack
 
-### frontend
-
-- **React** + **Vite**
-- **Tailwind CSS** for styling
-- **React Router** for navigation
-- **custom components** (e.g. BookCard, BookControls, BookList)
-
 ### backend
 
-- **Node.js** + **Express**
-- **Prisma ORM** + **PostgreSQL** for database access
-- **JWT** for authentication
-- **bcrypt** for password hashing
-- **REST API** for full CRUD functionality
-- **Open Library API** for book data
+- Node.js + Express (REST API)
+- PostgreSQL + Prisma ORM
+- JWT authentication
+- password hashing with bcrypt
+- node-fetch to interact with Open Library API
+- jest + supertest for backend testing
+
+### frontend
+
+- React 19 + Vite
+- Tailwind CSS
+- React Router
 
 ---
 
-## getting started
+## next steps
 
-clone the repo and run the following:
+- reading progress tracking (pages/days)
+- responsive calendar-based reading log
+- caching for Open Library responses
+- personalized recommendations based on user preferences
 
-```bash
-# install dependencies
-npm install
+---
 
-# start dev server
-npm run dev
-```
+## what i learned
 
-make sure to also run the backend server in a separate terminal:
+- structuring a fullstack application from scratch
+- designing user flows and clean UI
+- using third-party APIs and displaying dynamic content
+- writing and testing backend logic
 
-```bash
-cd server
-npm install
-npx prisma generate
-npx prisma migrate dev
-npm run dev
-```
+## personal note
 
-## feedback
+i love reading. i read every day, and I often write notes about what i read. but i never found a book tracking app that actually fit me - they were always either too complex or too limited. so I built my own!
 
-if you have any feedback, ideas, or want to contribute — feel free to open an issue or contact me!
+---
+
+i am currently building out my portfolio — learning fast, building fast, and refining my craft every day. if this project speaks to you, feel free to [connect with me](https://github.com/ssendns). i am always open to collaborating on cool, meaningful projects.
