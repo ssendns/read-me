@@ -1,6 +1,6 @@
 # read-me
 
-**read-me** is a personal book tracker and reading journal for passionate readers. track what you read, explore new books, set your own categories, and keep a personal archive of your thoughts and ratings. the design of read-me is clean, readable, and calm, inspired by personal journals and reading diaries. everything (from backend to interface) is custom-built with modern web technologies and practicies.
+**read-me** is a personal book tracker and reading journal built for passionate readers. Track what you read, explore new titles, create custom categories, and maintain a personal archive of thoughts and ratings. The design is clean, calm, and inspired by handwritten journals and reading diaries. Both the backend and UI are fully custom-built using modern web technologies and best practices.
 
 <img src="./frontend/public/read-me.png" alt="read-me screenshot" width="700"/>
 
@@ -57,8 +57,8 @@
 
 ## personal note
 
-i love reading. i read every day, and I often write notes about what i read. but i never found a book tracking app that actually fit me - they were always either too complex or too limited. so I built my own!
+I love reading. I read every day, and I often write notes about what I read. But I never found a book tracking app that actually fit me, they were always either too complex or too limited. So I built my own!
 
 ---
 
-i am currently building out my portfolio — learning fast, building fast, and refining my craft every day. if this project speaks to you, feel free to [connect with me](https://github.com/ssendns). i am always open to collaborating on cool, meaningful projects.
+If this project speaks to you, feel free to [connect with me](https://github.com/ssendns). I am always open to collaborating on cool, meaningful projects.
