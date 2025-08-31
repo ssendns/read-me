@@ -42,7 +42,7 @@
 - caching for Open Library responses
 - personalized recommendations based on user preferences
 
-## what i learned
+## what I learned
 
 - structuring a fullstack application from scratch
 - designing user flows and clean UI
