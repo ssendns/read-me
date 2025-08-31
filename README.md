@@ -6,8 +6,6 @@
   <img src="./frontend/public/read-me.png" alt="read-me screenshot" width="700"/>
 </p>
 
----
-
 ## features
 
 - **user authentication** with JWT + password hashing
@@ -19,8 +17,6 @@
 - **backend tests** (jest + supertest)
 - **responsive UI** with React 19 + Tailwind
 - **custom components** (e.g. `BookCard`, `BookControls`, `BookList`)
-
----
 
 ## tech stack
 
@@ -39,16 +35,12 @@
 - Tailwind CSS
 - React Router
 
----
-
 ## next steps
 
 - reading progress tracking (pages/days)
 - responsive calendar-based reading log
 - caching for Open Library responses
 - personalized recommendations based on user preferences
-
----
 
 ## what i learned
 
