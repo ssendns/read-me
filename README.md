@@ -2,7 +2,9 @@
 
 **read-me** is a personal book tracker and reading journal built for passionate readers. Track what you read, explore new titles, create custom categories, and maintain a personal archive of thoughts and ratings. The design is clean, calm, and inspired by handwritten journals and reading diaries. Both the backend and UI are fully custom-built using modern web technologies and best practices.
 
-<img src="./frontend/public/read-me.png" alt="read-me screenshot" width="700"/>
+<p align="center">
+  <img src="./frontend/public/read-me.png" alt="read-me screenshot" width="700"/>
+</p>
 
 ---
 
